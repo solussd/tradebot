@@ -1,0 +1,95 @@
+{:mvn/repos {"datomic-cloud" {:url "s3://datomic-releases-1fc2183a/maven/releases"}}
+ ; "sonatype-nexus-staging" {:url "https://oss.sonatype.org/service/local/staging/deploy/maven2/"}
+ ; "sonatype-nexus-snapshots" {:url
+ ; "https://oss.sonatype.org/content/repositories/snapshots"}
+
+ :deps      {
+             ;; Clojure core
+             org.clojure/clojure                         {:mvn/version "1.10.1"}
+             org.clojure/clojurescript                   {:mvn/version "1.10.773"}
+             ;org.clojure/core.async                  {:mvn/version "1.1.587"}
+             org.clojure/core.match                      {:mvn/version "1.0.0"}
+             org.clojure/tools.cli                       {:mvn/version "1.0.194"}
+             ;org.clojure/test.check                  {:mvn/version "0.9.0"}
+             org.clojure/algo.monads                     {:mvn/version "0.1.6"}
+             org.clojure/alpha.spec                      {:git/url "https://github.com/clojure/spec-alpha2.git"
+                                                          :sha     "8ba5dc543872369129181c4432f438c82b6cd297"}
+
+             ;; Deprecated java (for Java 9+ support)
+             javax.xml.bind/jaxb-api                     {:mvn/version "2.3.0"}
+
+             ;; Datomic
+             com.datomic/ion                             {:mvn/version "0.9.43"}
+
+             ;; webserver libraries
+             io.pedestal/pedestal.service                {:mvn/version "0.5.8"}
+
+             ;; http client
+             clj-http                                    {:mvn/version "3.10.1"}
+
+             ;; GraphQL
+             com.walmartlabs/lacinia-pedestal            {:mvn/version "0.14.0-alpha-1"}
+
+             ;; data transformation
+             cheshire                                    {:mvn/version "5.10.0"}
+             camel-snake-kebab                           {:mvn/version "0.4.0"}
+
+             ;; cryptography
+             buddy                                       {:mvn/version "2.0.0" :exclusions [buddy/buddy-core buddy/buddy-sign]}
+             buddy/buddy-core                            {:mvn/version "1.8.0" :exclusions [cheshire]}
+             buddy/buddy-sign                            {:mvn/version "3.2.0"}
+
+             ;; AWS API
+             com.cognitect.aws/api                       {:mvn/version "0.8.484"}
+             com.cognitect.aws/endpoints                 {:mvn/version "1.1.11.906"}
+             com.cognitect.aws/ssm                       {:mvn/version "809.2.797.0"}
+             com.cognitect.aws/sqs                       {:mvn/version "810.2.817.0"}
+
+             aleph                                       {:mvn/version "0.4.4"}
+
+             ;; misc
+             doric                                       {:mvn/version "0.9.0"}
+
+             ;; Datomic Ions overrides
+             org.clojure/data.json                       #:mvn{:version "0.2.6"},
+             commons-codec/commons-codec                 #:mvn{:version "1.13"},
+             org.clojure/tools.analyzer                  #:mvn{:version "0.6.9"},
+             org.clojure/tools.analyzer.jvm              #:mvn{:version "0.7.2"},
+             com.fasterxml.jackson.core/jackson-core     #:mvn{:version "2.10.1"},
+             com.cognitect/transit-clj                   #:mvn{:version "0.8.319"},
+             org.eclipse.jetty/jetty-client              #:mvn{:version "9.4.27.v20200227"},
+             org.slf4j/slf4j-api                         #:mvn{:version "1.7.14"},
+             org.clojure/test.check                      #:mvn{:version "0.10.0"},
+             org.clojure/core.memoize                    #:mvn{:version "0.7.2"},
+             org.clojure/core.cache                      #:mvn{:version "1.0.207"},
+             org.clojure/core.async                      #:mvn{:version "0.5.527"}
+
+             com.google.firebase/firebase-admin          {:mvn/version "7.1.0"}
+             com.google.cloud/google-cloud-shared-config {:mvn/version "0.4.0" :extension "pom"}}
+
+ :paths     ["resources" "src"]
+ :aliases   {:ion-dev {:extra-deps {com.datomic/ion-dev {:mvn/version "0.9.265"}}
+                       :main-opts  ["-m" "datomic.ion.dev"]}
+
+             :dev     {:extra-paths ["dev" "test" "dev-resources"]
+                       :extra-deps  {com.datomic/client-cloud {:mvn/version "0.8.96"
+                                                               :exclusions  [org.slf4j/jcl-over-slf4j
+                                                                             org.slf4j/slf4j-nop]}
+                                     com.datomic/ion-dev      {:mvn/version "0.9.265"
+                                                               :exclusions  [org.slf4j/slf4j-nop]}
+                                     org.clojure/data.csv     {:mvn/version "0.1.4"}
+                                     fipp                     {:mvn/version "0.6.14"}}}
+
+             :rebl    {:extra-deps {com.cognitect/rebl          {:mvn/version "0.9.242"}
+                                    org.openjfx/javafx-fxml     {:mvn/version "15-ea+6"}
+                                    org.openjfx/javafx-controls {:mvn/version "15-ea+6"}
+                                    org.openjfx/javafx-swing    {:mvn/version "15-ea+6"}
+                                    org.openjfx/javafx-base     {:mvn/version "15-ea+6"}
+                                    org.openjfx/javafx-web      {:mvn/version "15-ea+6"}}
+                       :main-opts  ["-m" "cognitect.rebl"]}
+
+             :test    {:extra-paths ["test"]
+                       :extra-deps  {com.cognitect/test-runner {:git/url "https://github.com/cognitect-labs/test-runner.git"
+                                                                :sha     "b6b3193fcc42659d7e46ecd1884a228993441182"}
+                                     com.datomic/dev-local     {:mvn/version "0.9.232"}}
+                       :main-opts   ["-m" "cognitect.test-runner"]}}}
